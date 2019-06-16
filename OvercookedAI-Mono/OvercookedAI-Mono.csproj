@@ -34,8 +34,15 @@
     <Compile Include="Action\CancellableAction.cs" />
     <Compile Include="Action\Action.cs" />
     <Compile Include="Action\ChopAction.cs" />
+    <Compile Include="Action\ChopIngredientAction.cs" />
+    <Compile Include="Action\DeliverPlateAction.cs" />
+    <Compile Include="Action\GetRawIngredientAction.cs" />
+    <Compile Include="Action\MoveTargetAction.cs" />
     <Compile Include="Action\PickDropAction.cs" />
     <Compile Include="Action\MoveAction.cs" />
+    <Compile Include="Action\PlateHoldingAction.cs" />
+    <Compile Include="Action\ProcessIngredientAction.cs" />
+    <Compile Include="Action\ProcessOrderAction.cs" />
     <Compile Include="OrderUtil.cs" />
     <Compile Include="ItemUtil.cs" />
     <Compile Include="Logger.cs" />

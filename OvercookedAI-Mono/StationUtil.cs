@@ -45,7 +45,23 @@ namespace AI {
         public static PickupItemSpawner GetSpawnerForItem(string ingredientName) {
             PickupItemSpawner[] itemSpawners = GameObject.FindObjectsOfType<PickupItemSpawner>();
 
-            return itemSpawners.FirstOrDefault(itemSpawner => itemSpawner.m_itemPrefab.name.Equals(ingredientName));
+            foreach (PickupItemSpawner spawner in itemSpawners) {
+                if (spawner.m_itemPrefab.name.Equals(ingredientName)) {
+                    return spawner;
+                }
+            }
+
+            return null;
+        }
+
+        public static Type GetStationTypeForIngredient(string ingredient) {
+            switch (ingredient) {
+                case "SushiPrawn":
+                case "SushiFish":
+                    return typeof(ClientWorkstation);
+            }
+
+            return null;
         }
 
     }

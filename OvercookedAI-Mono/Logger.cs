@@ -30,5 +30,10 @@ namespace AI {
             return "x=" + location.x + ", y=" + location.y + ", z=" + location.z;
         }
 
+        public static void Clear() {
+            File.WriteAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt",
+                "");
+        }
+
     }
 }

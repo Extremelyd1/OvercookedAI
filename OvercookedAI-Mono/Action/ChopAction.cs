@@ -11,10 +11,10 @@ namespace AI {
         public ChopAction(PlayerControls player, ClientWorkstation workstation) {
             this.player = player;
             this.workstation = workstation;
-        }
-
-        public override void Initialize() {
+            
             Keyboard.Get().SendDown(Keyboard.Input.CHOP_THROW);
+            
+            Logger.Log("ChopAction instantiated");
         }
 
         public override bool Update() {

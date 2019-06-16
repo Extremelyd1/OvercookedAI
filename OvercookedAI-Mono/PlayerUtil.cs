@@ -49,8 +49,65 @@ namespace AI {
             return playerControls[chef].transform.position;
         }
 
-        public static bool HasFinishedChopping(ClientWorkstation workstation) {
-            return workstation.IsBeingUsed();
+        public static float GetAngleFacingDiff(PlayerControls player, Component componentToFace) {
+            Vector3 playerPos = player.transform.position;
+            Vector3 compPos = componentToFace.transform.position;
+
+            float rot = player.transform.rotation.eulerAngles.y;
+
+            float xDif = Math.Abs(playerPos.x - compPos.x);
+            float zDif = Math.Abs(playerPos.z - compPos.z);
+            
+            Logger.Log($"AngleFacingDif method: rot={rot}, xDif={xDif}, zDif={zDif}");
+
+            if (xDif > zDif) {
+                if (playerPos.x > compPos.x) {
+                    // Should be 270
+                    if (rot < 90) {
+                        rot += 360;
+                    }
+                    return Math.Abs(270 - rot);
+                }
+
+                // Should be 90
+                if (rot > 270) {
+                    rot -= 360;
+                }
+                
+                return Math.Abs(90 - rot);
+            }
+            if (playerPos.z < compPos.z) {
+                // Should be 0
+                if (rot > 180) {
+                    rot -= 360;
+                }
+                
+                return Math.Abs(rot);
+            }
+            
+            // Should be 180 
+            return Math.Abs(180 - rot);
+        }
+
+        public static Keyboard.Input GetInputFacing(PlayerControls player, Component componentToFace) {
+            Vector3 playerPos = player.transform.position;
+            Vector3 compPos = componentToFace.transform.position;
+
+            float xDif = Math.Abs(playerPos.x - compPos.x);
+            float zDif = Math.Abs(playerPos.z - compPos.z);
+
+            if (xDif > zDif) {
+                if (playerPos.x > compPos.x) {
+                    return Keyboard.Input.LEFT;
+                }
+
+                return Keyboard.Input.RIGHT;
+            }
+            if (playerPos.z > compPos.z) {
+                return Keyboard.Input.DOWN;
+            }
+
+            return Keyboard.Input.UP;
         }
 
     }

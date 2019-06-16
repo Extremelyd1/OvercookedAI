@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace AI {
     class ItemUtil {
@@ -33,6 +34,11 @@ namespace AI {
             }
             
             return 0;
+        }
+
+        public static bool IsProcessedIngredient(string ingredient, string currentItem) {
+            return ingredient.Equals("SushiFish") && currentItem.Equals("ChoppedSushiFish") ||
+                   ingredient.Equals("SushiPrawn") && currentItem.Equals("ChoppedSushiPrawn");
         }
 
     }

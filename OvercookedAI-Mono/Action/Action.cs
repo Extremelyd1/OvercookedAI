@@ -2,8 +2,6 @@
 
     abstract class Action {
 
-        public abstract void Initialize();
-
         /**
          * Returns true when completed, false when still needs updating
          */
