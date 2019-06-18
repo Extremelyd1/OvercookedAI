@@ -39,6 +39,40 @@ namespace AI {
             return "";
         }
 
+        private static PlayerControls.InteractionObjects GetInteractionObjects(PlayerControls playerControls) {
+            BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                                     | BindingFlags.Static;
+            MethodInfo findNearbyMethod = playerControls.GetType().GetMethod("FindNearbyObjects", bindFlags);
+                
+            return (PlayerControls.InteractionObjects) 
+                findNearbyMethod.Invoke(playerControls, new object[] {});
+        }
+
+        public static string GetHighlightedObjectName(PlayerControls playerControls) {
+            PlayerControls.InteractionObjects interactionObjects = GetInteractionObjects(playerControls);
+
+            if (interactionObjects.m_TheOriginalHandlePickup != null) {
+                return interactionObjects.m_TheOriginalHandlePickup.name;
+            }
+
+            return null;
+        }
+
+        public static Vector3 GetHighlightedPosition(PlayerControls playerControls) {
+            PlayerControls.InteractionObjects interactionObjects = GetInteractionObjects(playerControls);
+
+            if (interactionObjects.m_gridLocation != null) {
+                IGridLocation gridLocation = interactionObjects.m_gridLocation;
+                return gridLocation.AccessGridManager.GetPosFromGridLocation(gridLocation.GridIndex);
+            }
+
+            return new Vector3(0, 0, 0);
+        }
+
+        public static bool HasHighlighted(PlayerControls playerControls) {
+            return GetHighlightedObjectName(playerControls) != null;
+        }
+
         public static Vector3 GetChefPosition(PlayerControls playerControls) {
             return playerControls.transform.position;
         }

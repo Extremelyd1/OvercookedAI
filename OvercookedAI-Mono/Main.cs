@@ -99,14 +99,34 @@ namespace AI {
             }
 
             if (Input.GetKeyDown(KeyCode.K)) {
-//                PlayerControls[] playerControls = FindObjectsOfType<PlayerControls>();
-//                Vector3 eulerRot = playerControls[1].transform.rotation.eulerAngles;
-//                Logger.Log($"Euler rotation x={eulerRot.x}, y={eulerRot.y}, z={eulerRot.z}");
+                PlayerControls[] playerControlsArray = FindObjectsOfType<PlayerControls>();
 
-                PickupItemSpawner spawner = StationUtil.GetSpawnerForItem("SushiPrawn");
-                Logger.Log($"Spawner pos: {Logger.FormatPosition(spawner.transform.position)}");
-                spawner = StationUtil.GetSpawnerForItem("SushiFish");
-                Logger.Log($"Spawner pos: {Logger.FormatPosition(spawner.transform.position)}");
+                PlayerControls bot = playerControlsArray[1];
+                
+                BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                                         | BindingFlags.Static;
+                MethodInfo findNearbyMethod = playerControlsArray[1].GetType().GetMethod("FindNearbyObjects", bindFlags);
+                
+                PlayerControls.InteractionObjects interactionObjects = (PlayerControls.InteractionObjects) 
+                    findNearbyMethod.Invoke(bot, new object[] {});
+
+                if (interactionObjects.m_gridLocation != null) {
+                    Vector3 position = interactionObjects.m_gridLocation.AccessGridManager.GetPosFromGridLocation(
+                        interactionObjects
+                            .m_gridLocation.GridIndex);
+
+                    Logger.Log($"interactionObject location: {Logger.FormatPosition(position)}");
+                }
+
+                if (interactionObjects.m_interactable != null) {
+                    string interactableName = interactionObjects.m_interactable.name;
+                    Logger.Log($"Interactable: {interactableName}");
+                }
+
+                if (interactionObjects.m_TheOriginalHandlePickup != null) {
+                    string originalName = interactionObjects.m_TheOriginalHandlePickup.name;
+                    Logger.Log($"Can handle pickup: {originalName}");
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.M)) {
