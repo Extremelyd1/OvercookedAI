@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace AI {
@@ -51,6 +53,49 @@ namespace AI {
             }
 
             return null;
+        }
+
+        public static Component GetPlateLocationComponent(ClientPlate plate) {
+            ClientAttachStation[] attachStations = GameObject.FindObjectsOfType<ClientAttachStation>();
+            foreach (ClientAttachStation attachStation in attachStations) {
+                if (attachStation.InspectItem() != null) {
+                    if (attachStation.InspectItem().Equals(plate.gameObject)) {
+                        return attachStation;
+                    }
+                }
+            }
+
+            ClientPlateReturnStation[] plateReturnStations = GameObject.FindObjectsOfType<ClientPlateReturnStation>();
+            
+            const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                                           | BindingFlags.Static;
+            
+            foreach (ClientPlateReturnStation plateReturnStation in plateReturnStations) {
+                Type plateReturnStationType = plateReturnStation.GetType();
+
+                FieldInfo stackFieldInfo = plateReturnStationType.GetField("m_stack", bindFlags);
+
+                ClientPlateStackBase plateStackBase = (ClientPlateStackBase) stackFieldInfo
+                    .GetValue(plateReturnStation);
+
+                stackFieldInfo = plateStackBase.GetType().GetField("m_stack", bindFlags);
+                
+                ClientStack clientStack = (ClientStack) stackFieldInfo.GetValue(plateStackBase);
+
+                stackFieldInfo = clientStack.GetType().GetField("m_stackItems", bindFlags);
+                
+                List<GameObject> stackItems = (List<GameObject>) stackFieldInfo.GetValue(clientStack);
+
+                if (stackItems.Contains(plate.gameObject)) {
+                    return plateReturnStation;
+                }
+            }
+
+            return null;
+        }
+
+        public static bool IsPlateOnComponent(ClientPlate plate) {
+            return GetPlateLocationComponent(plate) != null;
         }
 
     }

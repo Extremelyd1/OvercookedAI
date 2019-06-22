@@ -60,6 +60,7 @@ namespace AI {
                         if (plate == null) {
                             plate = ComponentUtil.GetClosestComponent<ClientPlate>(player.transform.position);
                         }
+                        
                         currentAction = new PlateHoldingAction(player, plate);
                     }
 

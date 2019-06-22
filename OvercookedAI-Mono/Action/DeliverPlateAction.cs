@@ -13,7 +13,11 @@
             
             Logger.Log("DeliverPlateAction instantiated");
             
-            currentAction = new MoveTargetAction(player, plate);
+            if (ComponentUtil.IsPlateOnComponent(plate)) {
+                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+            } else {
+                currentAction = new MoveTargetAction(player, plate);
+            }
         }
 
         public override bool Update() {

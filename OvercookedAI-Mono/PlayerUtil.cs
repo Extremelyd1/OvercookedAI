@@ -48,11 +48,11 @@ namespace AI {
                 findNearbyMethod.Invoke(playerControls, new object[] {});
         }
 
-        public static string GetHighlightedObjectName(PlayerControls playerControls) {
+        public static GameObject GetHighlightedObject(PlayerControls playerControls) {
             PlayerControls.InteractionObjects interactionObjects = GetInteractionObjects(playerControls);
 
             if (interactionObjects.m_TheOriginalHandlePickup != null) {
-                return interactionObjects.m_TheOriginalHandlePickup.name;
+                return interactionObjects.m_TheOriginalHandlePickup;
             }
 
             return null;
@@ -70,7 +70,7 @@ namespace AI {
         }
 
         public static bool HasHighlighted(PlayerControls playerControls) {
-            return GetHighlightedObjectName(playerControls) != null;
+            return GetHighlightedObject(playerControls) != null;
         }
 
         public static Vector3 GetChefPosition(PlayerControls playerControls) {

@@ -14,8 +14,12 @@
             state = 0;
             
             Logger.Log("PlateHoldingAction instantiated");
-            
-            currentAction = new MoveTargetAction(player, plate);
+
+            if (ComponentUtil.IsPlateOnComponent(plate)) {
+                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+            } else {
+                currentAction = new MoveTargetAction(player, plate);
+            }
         }
 
         public PlateHoldingAction(PlayerControls player) {
@@ -23,7 +27,12 @@
             
             plate = ComponentUtil.GetClosestComponent<ClientPlate>(PlayerUtil.GetChefPosition(player));
             state = 0;
-            currentAction = new MoveTargetAction(player, plate);
+            
+            if (ComponentUtil.IsPlateOnComponent(plate)) {
+                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+            } else {
+                currentAction = new MoveTargetAction(player, plate);
+            }
         }
 
         public override bool Update() {

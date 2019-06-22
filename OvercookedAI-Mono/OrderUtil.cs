@@ -30,7 +30,15 @@ namespace AI {
         }
 
         public static string GetNewOrder(ClientKitchenFlowControllerBase flowController) {
-            return (string) GetOrders(flowController)[0];
+            ArrayList orders = GetOrders(flowController);
+
+            int index = 1;
+            
+            foreach (string order in orders) {
+                Logger.Log($"Order #{index++}: {order}");
+            }
+            
+            return (string) orders[0];
         }
 
         public static string PredictOrderByPlayer(PlayerControls playerControls) {

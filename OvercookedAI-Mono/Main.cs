@@ -79,6 +79,7 @@ namespace AI {
                 if (currentAction.Update()) {
                     currentAction.End();
                     currentAction = null;
+                    currentOrder = "";
                 }
             }
 
@@ -129,6 +130,20 @@ namespace AI {
                 }
             }
 
+            if (Input.GetKeyDown(KeyCode.T)) {
+                ClientPlate plate = FindObjectOfType<ClientPlate>();
+                
+                Logger.Log($"Plate location: {Logger.FormatPosition(plate.transform.position)}");
+
+                Logger.Log("Before method call");
+                
+                Component component = ComponentUtil.GetPlateLocationComponent(plate);
+                
+                Logger.Log("After method call");
+
+                Logger.Log($"Component name: {component.name}");
+            }
+
             if (Input.GetKeyDown(KeyCode.M)) {
                 PlayerControls[] playerControls = FindObjectsOfType<PlayerControls>();
 
@@ -157,6 +172,11 @@ namespace AI {
                 Keyboard.Get().SendUp(Keyboard.Input.MOVE_DOWN);
             } else {
                 temp = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftBracket)) {
+                Logger.Log("Unloading...");
+                Loader.Unload();
             }
         }
 
