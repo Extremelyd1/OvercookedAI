@@ -6,20 +6,6 @@ namespace AI {
 
     class Logger {
 
-        //private static Logger INSTANCE;
-
-        //private Logger() {
-
-        //}
-
-        //public static Logger Get() {
-        //    if (INSTANCE == null) {
-        //        INSTANCE = new Logger();
-        //    }
-
-        //    return INSTANCE;
-        //}
-
         public static void Log(String message) {
             String str = File.ReadAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt");
             File.WriteAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt",

@@ -11,7 +11,7 @@ namespace AI {
             base(player, spawner.transform.position, false) {
 
             target = spawner;
-            
+
             Logger.Log($"MoveTargetAction instantiated to {target.name}");
         }
         

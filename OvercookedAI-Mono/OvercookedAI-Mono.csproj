@@ -38,6 +38,7 @@
     <Compile Include="Action\DeliverPlateAction.cs" />
     <Compile Include="Action\GetRawIngredientAction.cs" />
     <Compile Include="Action\MoveTargetAction.cs" />
+    <Compile Include="Action\PathFindAction.cs" />
     <Compile Include="Action\PickDropAction.cs" />
     <Compile Include="Action\MoveAction.cs" />
     <Compile Include="Action\PlateHoldingAction.cs" />

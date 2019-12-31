@@ -16,7 +16,7 @@
             workstation = ComponentUtil.GetClosestComponent<ClientWorkstation>(player.transform.position);
             
             currentAction = 
-                new MoveTargetAction(
+                new PathFindAction(
                     player, 
                     workstation
                 );

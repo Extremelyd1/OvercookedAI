@@ -8,6 +8,7 @@ using UnityEngine;
 namespace AI {
     internal class Main : MonoBehaviour {
         private ClientKitchenFlowControllerBase flowController;
+        private bool flowControllerFound;
         private PlayerControls botPlayer;
 
         private readonly ArrayList keyDown = new ArrayList();
@@ -20,14 +21,17 @@ namespace AI {
 
         public void Start() {
             Logger.Clear();
+
+            flowControllerFound = false;
         }
         public void Update() {
             ClientKitchenFlowControllerBase newFlowController = FindObjectOfType<ClientKitchenFlowControllerBase>();
-            if (newFlowController != null && (flowController == null || !flowController.Equals(newFlowController))) {
+            if ((!flowControllerFound || !flowController.Equals(newFlowController)) && newFlowController != null) {
                 flowController = newFlowController;
+                flowControllerFound = true;
             }
 
-            if (flowController == null) {
+            if (!flowControllerFound) {
                 return;
             }
 
@@ -165,13 +169,34 @@ namespace AI {
                 Logger.Log($"Chef 2 {Logger.FormatPosition(chef2Position)}");
             }
 
-            if (Input.GetKeyDown(KeyCode.P) && !temp) {
-                temp = true;
+            if (Input.GetKeyDown(KeyCode.P)) {
+                GridNavSpace gridNavSpace = GameUtils.GetGridNavSpace();
+                
+                Point2 startPoint = gridNavSpace.GetNavPoint(PlayerUtil.GetChefPosition(1));
+                Point2 targetPoint = gridNavSpace.GetNavPoint(PlayerUtil.GetChefPosition(0));
+                
+                path = gridNavSpace.FindPath(startPoint, targetPoint);
+                
+                botPlayer = FindObjectsOfType<PlayerControls>()[1];
 
-                Keyboard.Get().SendDown(Keyboard.Input.MOVE_DOWN);
-                Keyboard.Get().SendUp(Keyboard.Input.MOVE_DOWN);
-            } else {
-                temp = false;
+                pathIteration = 0;
+                
+                currentAction = new MoveAction(botPlayer, path[0]);
+
+                walkingPath = true;
+            }
+
+            if (walkingPath) {
+                if (currentAction != null && currentAction.Update()) {
+                    currentAction.End();
+
+                    if (pathIteration < path.Count - 1) {
+                        currentAction = new MoveAction(botPlayer, path[++pathIteration]);
+                    } else {
+                        currentAction = null;
+                        walkingPath = false;
+                    }
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.LeftBracket)) {
@@ -180,6 +205,8 @@ namespace AI {
             }
         }
 
-        private bool temp;
+        private bool walkingPath;
+        private List<Vector3> path;
+        private int pathIteration;
     }
 }

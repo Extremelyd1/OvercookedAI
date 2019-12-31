@@ -15,7 +15,7 @@
 
             Logger.Log("GetRawIngredientAction instantiated");
             
-            currentAction = new MoveTargetAction(player, ingredientSpawner);
+            currentAction = new PathFindAction(player, ingredientSpawner);
         }
 
         public override bool Update() {

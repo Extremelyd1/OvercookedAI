@@ -16,9 +16,9 @@
             Logger.Log("PlateHoldingAction instantiated");
 
             if (ComponentUtil.IsPlateOnComponent(plate)) {
-                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+                currentAction = new PathFindAction(player, ComponentUtil.GetPlateLocationComponent(plate));
             } else {
-                currentAction = new MoveTargetAction(player, plate);
+                currentAction = new PathFindAction(player, plate);
             }
         }
 
@@ -29,9 +29,9 @@
             state = 0;
             
             if (ComponentUtil.IsPlateOnComponent(plate)) {
-                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+                currentAction = new PathFindAction(player, ComponentUtil.GetPlateLocationComponent(plate));
             } else {
-                currentAction = new MoveTargetAction(player, plate);
+                currentAction = new PathFindAction(player, plate);
             }
         }
 

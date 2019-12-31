@@ -14,9 +14,9 @@
             Logger.Log("DeliverPlateAction instantiated");
             
             if (ComponentUtil.IsPlateOnComponent(plate)) {
-                currentAction = new MoveTargetAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+                currentAction = new PathFindAction(player, ComponentUtil.GetPlateLocationComponent(plate));
             } else {
-                currentAction = new MoveTargetAction(player, plate);
+                currentAction = new PathFindAction(player, plate);
             }
         }
 
@@ -41,7 +41,7 @@
                         Logger.Log($"Current pos: {Logger.FormatPosition(player.transform.position)}, " +
                                    $"station pos: {Logger.FormatPosition(deliverStation.transform.position)}");
                         
-                        currentAction = new MoveTargetAction(player, deliverStation);
+                        currentAction = new PathFindAction(player, deliverStation);
                     }
                     
                     return false;
