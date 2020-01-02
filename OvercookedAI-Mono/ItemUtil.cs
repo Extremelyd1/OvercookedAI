@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace AI {
-    class ItemUtil {
+    internal static class ItemUtil {
 
         public static string[] GetIngredientsForOrder(string orderName) {
             if (orderName.Equals("Sushi_PlainFish")) {

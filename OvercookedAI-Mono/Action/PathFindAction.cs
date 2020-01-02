@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AI {
 
-    class PathFindAction : CancellableAction {
+    internal class PathFindAction : CancellableAction {
 
         private Component target;
         private List<Vector3> path;

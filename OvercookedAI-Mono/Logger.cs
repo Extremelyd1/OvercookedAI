@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AI {
 
-    class Logger {
+    internal static class Logger {
 
         public static void Log(String message) {
             String str = File.ReadAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt");

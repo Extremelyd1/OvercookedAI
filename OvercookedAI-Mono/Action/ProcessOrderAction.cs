@@ -2,7 +2,7 @@
 
 namespace AI {
 
-    class ProcessOrderAction : Action {
+    internal class ProcessOrderAction : Action {
 
         private readonly PlayerControls player;
         private readonly string order;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace AI {
-    class OrderUtil {
+    internal static class OrderUtil {
 
         public static ArrayList GetOrders(ClientKitchenFlowControllerBase flowController) {
             ArrayList recipes = new ArrayList();

@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEngine;
 
 namespace AI {
-    class StationUtil {
+    internal static class StationUtil {
 
         public static bool HasFinishedChopping(ClientWorkstation workstation) {
             const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic

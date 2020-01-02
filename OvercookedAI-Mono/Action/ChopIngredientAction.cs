@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    class ChopIngredientAction : Action {
+    internal class ChopIngredientAction : Action {
 
         private readonly PlayerControls player;
 

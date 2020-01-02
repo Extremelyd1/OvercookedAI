@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AI {
 
-    class ChopAction : Action {
+    internal class ChopAction : Action {
 
         private readonly PlayerControls player;
         private readonly ClientWorkstation workstation;

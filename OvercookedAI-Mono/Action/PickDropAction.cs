@@ -2,7 +2,7 @@
 
 namespace AI {
 
-    class PickDropAction : Action {
+    internal class PickDropAction : Action {
 
         private static readonly int TRIES = 20;
         

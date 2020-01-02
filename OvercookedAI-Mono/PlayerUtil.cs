@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace AI {
-    class PlayerUtil {
+    internal static class PlayerUtil {
 
         public static bool IsCarrying(PlayerControls playerControls) {
             return GetCarrying(playerControls) != "";

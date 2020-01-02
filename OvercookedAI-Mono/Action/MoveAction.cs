@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AI {
 
-    class MoveAction : CancellableAction {
+    internal class MoveAction : CancellableAction {
 
         private static readonly int STUCK_TRIES = 5;
         

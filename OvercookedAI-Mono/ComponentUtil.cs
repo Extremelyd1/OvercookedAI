@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 
 namespace AI {
-    class ComponentUtil {
+    internal static class ComponentUtil {
 
         public static T GetClosestComponent<T>(Vector3 position) where T : Component {
             T[] objects = GameObject.FindObjectsOfType<T>();

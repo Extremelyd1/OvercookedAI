@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    class DeliverPlateAction : Action {
+    internal class DeliverPlateAction : Action {
 
         private readonly PlayerControls player;
 

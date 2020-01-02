@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    class PlateHoldingAction : Action {
+    internal class PlateHoldingAction : Action {
 
         private readonly PlayerControls player;
         private readonly ClientPlate plate;

@@ -44,6 +44,16 @@
     <Compile Include="Action\PlateHoldingAction.cs" />
     <Compile Include="Action\ProcessIngredientAction.cs" />
     <Compile Include="Action\ProcessOrderAction.cs" />
+    <Compile Include="Bot.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Menu\Button\Button.cs" />
+    <Compile Include="Menu\Button\FunctionButton.cs" />
+    <Compile Include="Menu\Button\ParamFunctionButton.cs" />
+    <Compile Include="Menu\Button\SectionButton.cs" />
+    <Compile Include="Menu\Button\TextBox.cs" />
+    <Compile Include="Menu\Button\ToggleButton.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="ObjectUtil.cs" />
     <Compile Include="OrderUtil.cs" />
     <Compile Include="ItemUtil.cs" />
     <Compile Include="Logger.cs" />
@@ -279,10 +289,6 @@
     <Reference Include="UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Programs\Steam\steamapps\common\Overcooked! 2\Overcooked2_Data\Managed\UnityEngine.WindModule.dll</HintPath>
-    </Reference>
-    <Reference Include="XInputDotNetPure, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Programs\Steam\steamapps\common\Overcooked! 2\Overcooked2_Data\Managed\XInputDotNetPure.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

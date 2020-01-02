@@ -1,5 +1,5 @@
 ﻿namespace AI {
-    abstract class CancellableAction : Action {
+    internal abstract class CancellableAction : Action {
 
         public abstract void Cancel();
 

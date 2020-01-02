@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    class ProcessIngredientAction : Action {
+    internal class ProcessIngredientAction : Action {
 
         private readonly Action action;
 

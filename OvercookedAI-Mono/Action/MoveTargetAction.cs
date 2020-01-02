@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AI {
 
-    class MoveTargetAction : MoveAction {
+    internal class MoveTargetAction : MoveAction {
 
         private Component target;
         

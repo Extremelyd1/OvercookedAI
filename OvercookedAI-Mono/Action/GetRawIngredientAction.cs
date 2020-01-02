@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    class GetRawIngredientAction : Action {
+    internal class GetRawIngredientAction : Action {
 
         private readonly PlayerControls player;
 

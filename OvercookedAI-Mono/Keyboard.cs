@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace AI {
 
-    class Keyboard {
+    internal class Keyboard {
 
         private static Keyboard INSTANCE;
 

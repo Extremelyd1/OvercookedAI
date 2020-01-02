@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    abstract class Action {
+    internal abstract class Action {
 
         /**
          * Returns true when completed, false when still needs updating
