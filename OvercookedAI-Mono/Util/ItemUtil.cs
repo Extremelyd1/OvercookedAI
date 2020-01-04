@@ -6,11 +6,15 @@ namespace AI {
 
         public static string[] GetIngredientsForOrder(string orderName) {
             if (orderName.Equals("Sushi_PlainFish")) {
-                return new [] { "SushiFish" };
+                return new[] { "SushiFish" };
             }
             
             if (orderName.Equals("Sushi_PlainPrawn")) {
-                return new [] { "SushiPrawn" };
+                return new[] { "SushiPrawn" };
+            }
+
+            if (orderName.Equals("Sushi_Fish")) {
+                return new[] { "SushiRice", "Seaweed", "SushiFish" };
             }
 
             return null;

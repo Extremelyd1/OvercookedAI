@@ -8,7 +8,8 @@ namespace AI {
         }
 
         public static PlayerControls GetBotControls() {
-            return Object.FindObjectsOfType<PlayerControls>()[1];
+            // Logger.Log($"PlayerControl instances count: {Object.FindObjectsOfType<PlayerControls>().Length}");
+            return Object.FindObjectsOfType<PlayerControls>()[0];
         }
     }
 }

@@ -3,17 +3,46 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AI {
     internal static class ComponentUtil {
 
+        public delegate bool ComponentFunction(Component component);
+        
         public static T GetClosestComponent<T>(Vector3 position) where T : Component {
-            T[] objects = GameObject.FindObjectsOfType<T>();
+            T[] objects = Object.FindObjectsOfType<T>();
 
             float dist = float.MaxValue;
             int closestIndex = -1;
 
             for (int i = 0; i < objects.Length; i++) {
+                Vector3 objectPos = objects[i].transform.position;
+                float newDist = new Vector3(position.x - objectPos.x, position.y - objectPos.y, position.z - objectPos.z).sqrMagnitude;
+                if (newDist < dist) {
+                    dist = newDist;
+                    closestIndex = i;
+                }
+            }
+
+            if (closestIndex != -1) {
+                return objects[closestIndex];
+            }
+
+            return null;
+        }
+
+        public static T GetClosestMatchingComponent<T>(Vector3 position, ComponentFunction matchFunction) where T : Component {
+            T[] objects = Object.FindObjectsOfType<T>();
+
+            float dist = float.MaxValue;
+            int closestIndex = -1;
+
+            for (int i = 0; i < objects.Length; i++) {
+                if (!matchFunction(objects[i])) {
+                    continue;
+                }
+                
                 Vector3 objectPos = objects[i].transform.position;
                 float newDist = new Vector3(position.x - objectPos.x, position.y - objectPos.y, position.z - objectPos.z).sqrMagnitude;
                 if (newDist < dist) {
@@ -55,14 +84,23 @@ namespace AI {
             return null;
         }
 
-        public static Component GetPlateLocationComponent(ClientPlate plate) {
-            ClientAttachStation[] attachStations = GameObject.FindObjectsOfType<ClientAttachStation>();
+        public static Component GetObjectLocationComponent(Component component) {
+            ClientAttachStation[] attachStations = Object.FindObjectsOfType<ClientAttachStation>();
             foreach (ClientAttachStation attachStation in attachStations) {
                 if (attachStation.InspectItem() != null) {
-                    if (attachStation.InspectItem().Equals(plate.gameObject)) {
+                    if (attachStation.InspectItem().Equals(component.gameObject)) {
                         return attachStation;
                     }
                 }
+            }
+
+            return null;
+        }
+
+        public static Component GetPlateLocationComponent(ClientPlate plate) {
+            Component locationComponent = GetObjectLocationComponent(plate);
+            if (locationComponent != null) {
+                return locationComponent;
             }
 
             ClientPlateReturnStation[] plateReturnStations = GameObject.FindObjectsOfType<ClientPlateReturnStation>();

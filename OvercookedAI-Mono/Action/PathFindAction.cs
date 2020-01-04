@@ -36,8 +36,10 @@ namespace AI {
                 if (i == path.Count - 1) {
                     currentAction = new MoveTargetAction(player, target);
                 } else {
-                    currentAction = new MoveAction(player, path[i++]);
+                    currentAction = new MoveAction(player, path[i]);
                 }
+
+                i++;
 
                 hasCurrentAction = true;
             } else {
@@ -45,7 +47,8 @@ namespace AI {
                     currentAction.End();
                     hasCurrentAction = false;
 
-                    if (i == path.Count - 1) {
+                    if (i == path.Count) {
+                        Logger.Log($"PathFindAction to {target.name} done");
                         return true;
                     }
                 }

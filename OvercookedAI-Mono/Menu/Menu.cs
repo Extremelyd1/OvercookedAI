@@ -20,15 +20,21 @@ namespace AI {
 
         private bool isOpen;
 
-        public void Start() {
+        public void Start(Bot bot) {
             inSection = false;
             isOpen = false;
             selectedIndex = 0;
 
-            menuButtons.Add(new FunctionButton("Log interactables", Debug.LogInteractables));
-            menuButtons.Add(new FunctionButton("Log closest plate", Debug.LogPlate));
-            menuButtons.Add(new FunctionButton("Log carrying", Debug.LogCarrying));
-            menuButtons.Add(new FunctionButton("Log chef positions", Debug.LogChefPositions));
+            menuButtons.Add(new SectionButton("Logging", new Button[] {
+                new FunctionButton("Log interactables", Debug.LogInteractables),
+                new FunctionButton("Log closest plate", Debug.LogPlate),
+                new FunctionButton("Log carrying", Debug.LogCarrying),
+                new FunctionButton("Log chef positions", Debug.LogChefPositions),
+                new FunctionButton("Log cooking station positions", Debug.LogCookingStations),
+                new FunctionButton("Log orders", Debug.LogOrders)
+            }));
+
+            menuButtons.Add(new FunctionButton("Start/stop bot", bot.ToggleExecution));
             
             menuButtons.Add(new FunctionButton("Pathfind to player position", Debug.PathFindToPlayer));
             

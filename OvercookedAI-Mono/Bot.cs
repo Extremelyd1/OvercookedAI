@@ -24,6 +24,14 @@ namespace AI {
             currentAction = null;
         }
 
+        public void ToggleExecution() {
+            if (IsExecuting()) {
+                End();
+            } else {
+                Start();
+            }
+        }
+
         public void Update() {
             if (!executing) {
                 return;

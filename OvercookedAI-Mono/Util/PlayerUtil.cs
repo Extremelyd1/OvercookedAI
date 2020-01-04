@@ -22,15 +22,16 @@ namespace AI {
             FieldInfo carriedObjectsField = clientCarrier.GetType().GetField("m_carriedObjects", bindFlags);
             IClientAttachment[] carriedObjects = (IClientAttachment[])carriedObjectsField.GetValue(clientCarrier);
 
-            //Logger.Get().Log(String.Format("Number of carried objects: {0}", carriedObjects.Length));
+            // Logger.Log($"Number of carried objects: {carriedObjects.Length}");
             for (int i = 0; i < carriedObjects.Length; i++) {
 
-                //Logger.Get().Log(String.Format("Carried object is null: {0}", carriedObjects[i] == null));
-                //Logger.Get().Log(String.Format("CarriedObject Type: {0}", carriedObjects[i].GetType()));
-                //Logger.Get().Log(String.Format("Carried game object is null: {0}", carriedObjects[i].AccessGameObject() == null));
+                // Logger.Log($"    Carried object is null: {carriedObjects[i] == null}");
+                // Logger.Log($"    CarriedObject Type: {carriedObjects[i].GetType()}");
+                // Logger.Log($"    Carried game object is null: {carriedObjects[i].AccessGameObject() == null}");
 
                 if (carriedObjects[i] != null) {
                     if (carriedObjects[i].AccessGameObject() != null) {
+                        // Logger.Log($"    Carried game object type: {carriedObjects[i].AccessGameObject()}");
                         return carriedObjects[i].AccessGameObject().name;
                     }
                 }
@@ -132,16 +133,16 @@ namespace AI {
 
             if (xDif > zDif) {
                 if (playerPos.x > compPos.x) {
-                    return Keyboard.Input.LEFT;
+                    return Keyboard.Input.MOVE_LEFT;
                 }
 
-                return Keyboard.Input.RIGHT;
+                return Keyboard.Input.MOVE_RIGHT;
             }
             if (playerPos.z > compPos.z) {
-                return Keyboard.Input.DOWN;
+                return Keyboard.Input.MOVE_DOWN;
             }
 
-            return Keyboard.Input.UP;
+            return Keyboard.Input.MOVE_UP;
         }
 
     }

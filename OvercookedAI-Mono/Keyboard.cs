@@ -8,7 +8,7 @@ namespace AI {
 
         private static Keyboard INSTANCE;
 
-        private ArrayList keysDown = new ArrayList();
+        public ArrayList keysDown = new ArrayList();
 
         private Keyboard() {
 

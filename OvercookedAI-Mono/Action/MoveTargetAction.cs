@@ -6,36 +6,17 @@ namespace AI {
     internal class MoveTargetAction : MoveAction {
 
         private Component target;
-        
-        public MoveTargetAction(PlayerControls player, PickupItemSpawner spawner) : 
-            base(player, spawner.transform.position, false) {
-
-            target = spawner;
-
-            Logger.Log($"MoveTargetAction instantiated to {target.name}");
-        }
-        
-        public MoveTargetAction(PlayerControls player, ClientPlateStation deliverStation) : 
-            base(player, deliverStation.transform.position, false) {
-
-            target = deliverStation;
-            
-            Logger.Log($"MoveTargetAction instantiated to {target.name}");
-        }
-
-        public MoveTargetAction(PlayerControls player, ClientWorkstation workstation) :
-            base(player, workstation.transform.position, false) {
-
-            target = workstation;
-
-            Logger.Log($"MoveTargetAction instantiated to {target.name}");
-        }
 
         public MoveTargetAction(PlayerControls player, Component component) :
             base(player, component.transform.position, false) {
 
-            target = component;
-            
+            Component locationComponent = ComponentUtil.GetObjectLocationComponent(component);
+            if (locationComponent != null) {
+                target = locationComponent;
+            } else {
+                target = component;
+            }
+
             Logger.Log($"MoveTargetAction instantiated to {target.name}");
         }
 
@@ -53,18 +34,20 @@ namespace AI {
             }
 
             // TODO: face target component before ending
-//            float facingDif = PlayerUtil.GetAngleFacingDiff(player, target);
-//
-////            Logger.Log($"Facing diff: {facingDif}");
-//
-//            if (facingDif > 40) {
-//                Keyboard.Get().SendDown(PlayerUtil.GetInputFacing(player, target));
-//
-//                return false;
-//            }
-//
-//            Keyboard.Get().StopXMovement();
-//            Keyboard.Get().StopZMovement();
+            float facingDif = PlayerUtil.GetAngleFacingDiff(player, target);
+
+            // Logger.Log($"Facing diff: {facingDif}");
+
+            if (facingDif > 40) {
+                Keyboard.Input input = PlayerUtil.GetInputFacing(player, target);
+                // Logger.Log($"Input: {input}");
+                Keyboard.Get().SendDown(input);
+
+                return false;
+            }
+
+            Keyboard.Get().StopXMovement();
+            Keyboard.Get().StopZMovement();
 
             Logger.Log("MoveTargetAction done");
 

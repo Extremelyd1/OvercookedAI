@@ -1,4 +1,6 @@
-﻿namespace AI {
+﻿using UnityEngine;
+
+namespace AI {
 
     internal class PlateHoldingAction : Action {
 
@@ -41,16 +43,50 @@
                     if (currentAction.Update()) {
                         currentAction.End();
                         state = 1;
-                        currentAction = new PickDropAction(player);
+                        currentAction = new PickDropAction(player, true);
                     }
 
                     return false;
                 case 1:
                     if (currentAction.Update()) {
                         currentAction.End();
-                        return true;
+
+                        if (!PlayerUtil.IsCarrying(player)) {
+                            return true;
+                        }
+                        // Still holding something, for instance a pan or pot
+                        Logger.Log("Still holding something after plating");
+                        state = 2;
+                        
+                        ClientAttachStation clientAttachStation =
+                            ComponentUtil.GetClosestMatchingComponent<ClientAttachStation>(
+                                player.transform.position, IsAttachStationEmpty);
+                        
+                        currentAction = 
+                            new PathFindAction(
+                                player,
+                                clientAttachStation
+                            );
                     }
                     
+                    return false;
+                case 2:
+                    if (currentAction.Update()) {
+                        currentAction.End();
+
+                        state = 3;
+                        
+                        currentAction = new PickDropAction(player);
+                    }
+                    
+                    return false;
+                case 3:
+                    if (currentAction.Update()) {
+                        currentAction.End();
+
+                        return true;
+                    }
+
                     return false;
                 default:
                     return false;
@@ -59,6 +95,14 @@
 
         public override void End() {
             currentAction.End();
+        }
+
+        public bool IsAttachStationEmpty(Component component) {
+            if (component is ClientAttachStation clientAttachStation) {
+                return !clientAttachStation.HasItem();
+            }
+
+            return false;
         }
 
     }

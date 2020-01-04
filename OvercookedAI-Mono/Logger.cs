@@ -6,9 +6,11 @@ namespace AI {
 
     internal static class Logger {
 
+        private readonly static string PATH = "D:\\Coding\\OvercookedAI\\OvercookedAI-Mono\\bin\\Output.txt";
+        
         public static void Log(String message) {
-            String str = File.ReadAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt");
-            File.WriteAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt",
+            String str = File.ReadAllText(PATH);
+            File.WriteAllText(PATH,
                 str + message + "\n");
         }
 
@@ -17,7 +19,7 @@ namespace AI {
         }
 
         public static void Clear() {
-            File.WriteAllText("D:\\Programs\\Steam\\steamapps\\common\\Overcooked! 2\\Output.txt",
+            File.WriteAllText(PATH,
                 "");
         }
 

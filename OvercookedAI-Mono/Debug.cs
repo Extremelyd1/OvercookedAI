@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AI {
     internal static class Debug {
@@ -68,6 +70,18 @@ namespace AI {
                 
             Vector3 chef2Position = PlayerUtil.GetChefPosition(1);
             Logger.Log($"Chef 2 {Logger.FormatPosition(chef2Position)}");
+        }
+
+        public static void LogCookingStations() {
+            ClientCookableContainer[] list = Object.FindObjectsOfType<ClientCookableContainer>();
+            
+            Logger.Log($"Number of objects: {list.Length}");
+            
+            foreach (var item in list) {
+                Logger.Log($"Location: {Logger.FormatPosition(item.transform.position)}");
+                
+                Logger.Log($"uID of cooking type: {item.GetCookingHandler().AccessCookingType.m_uID}");
+            }
         }
 
         public static void PathFindToPlayer() {

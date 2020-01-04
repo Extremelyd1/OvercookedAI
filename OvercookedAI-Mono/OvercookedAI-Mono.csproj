@@ -35,6 +35,7 @@
     <Compile Include="Action\Action.cs" />
     <Compile Include="Action\ChopAction.cs" />
     <Compile Include="Action\ChopIngredientAction.cs" />
+    <Compile Include="Action\CookIngredientAction.cs" />
     <Compile Include="Action\DeliverPlateAction.cs" />
     <Compile Include="Action\GetRawIngredientAction.cs" />
     <Compile Include="Action\MoveTargetAction.cs" />
@@ -53,17 +54,17 @@
     <Compile Include="Menu\Button\TextBox.cs" />
     <Compile Include="Menu\Button\ToggleButton.cs" />
     <Compile Include="Menu\Menu.cs" />
-    <Compile Include="ObjectUtil.cs" />
-    <Compile Include="OrderUtil.cs" />
-    <Compile Include="ItemUtil.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="PlayerUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ComponentUtil.cs" />
-    <Compile Include="StationUtil.cs" />
+    <Compile Include="Util\ComponentUtil.cs" />
+    <Compile Include="Util\ItemUtil.cs" />
+    <Compile Include="Util\ObjectUtil.cs" />
+    <Compile Include="Util\OrderUtil.cs" />
+    <Compile Include="Util\PlayerUtil.cs" />
+    <Compile Include="Util\StationUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">

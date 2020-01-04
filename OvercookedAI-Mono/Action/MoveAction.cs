@@ -29,8 +29,10 @@ namespace AI {
             xMargin = 0.2f;
             zMargin = 0.2f;
             stuckStop = false;
-            
-            Logger.Log("MoveAction instantiated");
+            xStuck = false;
+            zStuck = false;
+
+            Logger.Log($"MoveAction instantiated to {Logger.FormatPosition(destination)}, current pos: {Logger.FormatPosition(player.transform.position)}");
         }
 
         public MoveAction(PlayerControls player, Vector3 destination, float margin) {

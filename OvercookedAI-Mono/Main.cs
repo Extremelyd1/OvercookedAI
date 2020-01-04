@@ -11,8 +11,9 @@ namespace AI {
             Logger.Log("Loaded.");
 
             bot = new Bot();
+            bot.Init();
             menu = new Menu();
-            menu.Start();
+            menu.Start(bot);
         }
         public void Update() {
             bot.Update();

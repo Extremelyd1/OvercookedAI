@@ -14,15 +14,21 @@
                 case "SushiPrawn":
                     action = new ChopIngredientAction(player);
                     break;
+                case "SushiRice":
+                    action = new CookIngredientAction(player);
+                    break;
+                case "Seaweed":
+                    action = null;
+                    break;
             }
         }
 
         public override bool Update() {
-            return action.Update();
+            return action == null || action.Update();
         }
 
         public override void End() {
-            action.End();
+            action?.End();
         }
 
     }

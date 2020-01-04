@@ -7,12 +7,17 @@ namespace AI {
         private static readonly int TRIES = 20;
         
         private readonly PlayerControls player;
+        private readonly bool skipHoldingCheck;
         private readonly string currentlyHolding;
 
         private int retry = TRIES;
+        
+        public PickDropAction(PlayerControls player) : this(player, false) {
+        }
 
-        public PickDropAction(PlayerControls player) {
+        public PickDropAction(PlayerControls player, bool skipHoldingCheck) {
             this.player = player;
+            this.skipHoldingCheck = skipHoldingCheck;
             
             currentlyHolding = PlayerUtil.GetCarrying(player);
 
@@ -22,6 +27,16 @@ namespace AI {
         }
 
         public override bool Update() {
+            if (skipHoldingCheck) {
+                retry -= 1;
+
+                if (retry <= 0) {
+                    return true;
+                }
+
+                return false;
+            }
+            
             String newHolding = PlayerUtil.GetCarrying(player);
 
             if (retry == 5) {
