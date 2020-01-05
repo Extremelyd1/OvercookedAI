@@ -1,13 +1,13 @@
 ﻿namespace AI {
 
-    internal abstract class Action {
+    internal interface Action {
 
         /**
          * Returns true when completed, false when still needs updating
          */
-        public abstract bool Update();
+        bool Update();
 
-        public abstract void End();
+        void End();
 
     }
 }

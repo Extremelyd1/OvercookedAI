@@ -19,8 +19,10 @@ namespace AI {
 
             if (ComponentUtil.IsPlateOnComponent(plate)) {
                 currentAction = new PathFindAction(player, ComponentUtil.GetPlateLocationComponent(plate));
+                Logger.Log("Pathfinding component?");
             } else {
                 currentAction = new PathFindAction(player, plate);
+                Logger.Log("Pathfinding plate?");
             }
         }
 
@@ -37,7 +39,7 @@ namespace AI {
             }
         }
 
-        public override bool Update() {
+        public bool Update() {
             switch (state) {
                 case 0:
                     if (currentAction.Update()) {
@@ -60,7 +62,7 @@ namespace AI {
                         
                         ClientAttachStation clientAttachStation =
                             ComponentUtil.GetClosestMatchingComponent<ClientAttachStation>(
-                                player.transform.position, IsAttachStationEmpty);
+                                player.transform.position, IsAttachStationEmptyAndClean);
                         
                         currentAction = 
                             new PathFindAction(
@@ -93,11 +95,15 @@ namespace AI {
             }
         }
 
-        public override void End() {
+        public void End() {
             currentAction.End();
         }
 
-        public bool IsAttachStationEmpty(Component component) {
+        public bool IsAttachStationEmptyAndClean(Component component) {
+            if (!ComponentUtil.IsCleanAttachStation(component)) {
+                return false;
+            }
+            
             if (component is ClientAttachStation clientAttachStation) {
                 return !clientAttachStation.HasItem();
             }

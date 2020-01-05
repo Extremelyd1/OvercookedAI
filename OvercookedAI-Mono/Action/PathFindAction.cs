@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace AI {
 
-    internal class PathFindAction : CancellableAction {
+    internal class PathFindAction : IPausableAction {
 
         private Component target;
         private List<Vector3> path;
@@ -31,7 +30,7 @@ namespace AI {
             Logger.Log($"PathFindAction instantiated to {target.name}");
         }
 
-        public override bool Update() {
+        public bool Update() {
             if (!hasCurrentAction) {
                 if (i == path.Count - 1) {
                     currentAction = new MoveTargetAction(player, target);
@@ -57,11 +56,14 @@ namespace AI {
             return false;
         }
 
-        public override void End() {
+        public void End() {
+            currentAction.End();
         }
 
-        public override void Cancel() {
+        public bool Pause() {
             currentAction.End();
+
+            return true;
         }
     }
 

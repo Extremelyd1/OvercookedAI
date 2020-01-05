@@ -50,8 +50,8 @@ namespace AI {
                 }
 
                 if (!orderExists) {
-                    if (currentAction is CancellableAction cancellableCurrentAction) {
-                        cancellableCurrentAction.Cancel();
+                    if (currentAction is IPausableAction cancellableCurrentAction) {
+                        cancellableCurrentAction.Pause();
                     }
 
                     currentAction = null;
@@ -62,7 +62,7 @@ namespace AI {
             }
             // We should have an order to work on
             if (currentAction == null) {
-                currentAction = new ProcessOrderAction(ObjectUtil.GetBotControls(), currentOrder);                    
+                currentAction = new HandleOrderAction(ObjectUtil.GetBotControls(), currentOrder);                    
             }
 
             if (currentAction.Update()) {

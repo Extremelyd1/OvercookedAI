@@ -31,7 +31,8 @@ namespace AI {
                 new FunctionButton("Log carrying", Debug.LogCarrying),
                 new FunctionButton("Log chef positions", Debug.LogChefPositions),
                 new FunctionButton("Log cooking station positions", Debug.LogCookingStations),
-                new FunctionButton("Log orders", Debug.LogOrders)
+                new FunctionButton("Log orders", Debug.LogOrders),
+                new FunctionButton("Log reflection util test", Debug.LogTestReflectionUtil)
             }));
 
             menuButtons.Add(new FunctionButton("Start/stop bot", bot.ToggleExecution));

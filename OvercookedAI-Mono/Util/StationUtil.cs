@@ -9,10 +9,7 @@ namespace AI {
     internal static class StationUtil {
 
         public static bool HasFinishedChopping(ClientWorkstation workstation) {
-            const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                           | BindingFlags.Static;
-            FieldInfo itemField = workstation.GetType().GetField("m_item", bindFlags);
-            ClientWorkableItem workableItem = (ClientWorkableItem)itemField.GetValue(workstation);
+            ClientWorkableItem workableItem = (ClientWorkableItem) ReflectionUtil.GetValue(workstation, "m_item");
 
             return workableItem.HasFinished();
         }

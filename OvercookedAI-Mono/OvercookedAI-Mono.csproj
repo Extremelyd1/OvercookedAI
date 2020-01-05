@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Action\CancellableAction.cs" />
+    <Compile Include="Action\IPausableAction.cs" />
     <Compile Include="Action\Action.cs" />
     <Compile Include="Action\ChopAction.cs" />
     <Compile Include="Action\ChopIngredientAction.cs" />
@@ -39,12 +39,15 @@
     <Compile Include="Action\DeliverPlateAction.cs" />
     <Compile Include="Action\GetRawIngredientAction.cs" />
     <Compile Include="Action\MoveTargetAction.cs" />
+    <Compile Include="Action\OrderData.cs" />
     <Compile Include="Action\PathFindAction.cs" />
     <Compile Include="Action\PickDropAction.cs" />
     <Compile Include="Action\MoveAction.cs" />
     <Compile Include="Action\PlateHoldingAction.cs" />
     <Compile Include="Action\ProcessIngredientAction.cs" />
-    <Compile Include="Action\ProcessOrderAction.cs" />
+    <Compile Include="Action\HandleIngredientAction.cs" />
+    <Compile Include="Action\HandleOrderAction.cs" />
+    <Compile Include="Action\ISequentialAction.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Menu\Button\Button.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="Util\ObjectUtil.cs" />
     <Compile Include="Util\OrderUtil.cs" />
     <Compile Include="Util\PlayerUtil.cs" />
+    <Compile Include="Util\ReflectionUtil.cs" />
     <Compile Include="Util\StationUtil.cs" />
   </ItemGroup>
   <ItemGroup>

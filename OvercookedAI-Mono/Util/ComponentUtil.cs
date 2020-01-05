@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -103,26 +102,15 @@ namespace AI {
                 return locationComponent;
             }
 
-            ClientPlateReturnStation[] plateReturnStations = GameObject.FindObjectsOfType<ClientPlateReturnStation>();
-            
-            const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                           | BindingFlags.Static;
+            ClientPlateReturnStation[] plateReturnStations = Object.FindObjectsOfType<ClientPlateReturnStation>();
             
             foreach (ClientPlateReturnStation plateReturnStation in plateReturnStations) {
-                Type plateReturnStationType = plateReturnStation.GetType();
+                ClientPlateStackBase plateStackBase =
+                    (ClientPlateStackBase) ReflectionUtil.GetValue(plateReturnStation, "m_stack");
 
-                FieldInfo stackFieldInfo = plateReturnStationType.GetField("m_stack", bindFlags);
+                ClientStack clientStack = (ClientStack) ReflectionUtil.GetValue(plateStackBase, "m_stack");
 
-                ClientPlateStackBase plateStackBase = (ClientPlateStackBase) stackFieldInfo
-                    .GetValue(plateReturnStation);
-
-                stackFieldInfo = plateStackBase.GetType().GetField("m_stack", bindFlags);
-                
-                ClientStack clientStack = (ClientStack) stackFieldInfo.GetValue(plateStackBase);
-
-                stackFieldInfo = clientStack.GetType().GetField("m_stackItems", bindFlags);
-                
-                List<GameObject> stackItems = (List<GameObject>) stackFieldInfo.GetValue(clientStack);
+                List<GameObject> stackItems = (List<GameObject>) ReflectionUtil.GetValue(clientStack, "m_stackItems");
 
                 if (stackItems.Contains(plate.gameObject)) {
                     return plateReturnStation;
@@ -130,6 +118,45 @@ namespace AI {
             }
 
             return null;
+        }
+
+        /**
+         * Return whether the attachstation given is not a bin/chopping-board/etc.
+         */
+        public static bool IsCleanAttachStation(Component targetStation) {
+            if (!(targetStation is ClientAttachStation)) {
+                return false;
+            }
+            
+            // TODO: fill with all station types
+            Dictionary<Type, String> stationMapping = new Dictionary<Type, string> {
+                { typeof(ClientWorkstation), "m_attachStation" },
+                { typeof(ClientRubbishBin), "m_clientAttachStation" },
+                { typeof(ClientCookingStation), "m_attachStation" },
+                { typeof(ClientPlateReturnStation), "m_attachStation" },
+                { typeof(ClientPlateStation), "m_ClientAttachStation" },
+            };
+
+            foreach (Type type in stationMapping.Keys) {
+                var stations = Object.FindObjectsOfType(type);
+                foreach (var station in stations) {
+                    ClientAttachStation attachStation = (ClientAttachStation) ReflectionUtil.GetValue(station, type, stationMapping[type]);
+                    if (attachStation.Equals(targetStation)) {
+                        return false;
+                    }
+                }
+            }
+            
+            // Different test for item containers, since they have no associated attach station
+            Vector3 targetPos = targetStation.transform.position;
+            foreach (ClientPickupItemSpawner spawner in Object.FindObjectsOfType<ClientPickupItemSpawner>()) {
+                Vector3 spawnerPos = spawner.transform.position;
+                if (new Vector2(spawnerPos.x - targetPos.x, spawnerPos.z - targetPos.z).sqrMagnitude < 0.1) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public static bool IsPlateOnComponent(ClientPlate plate) {

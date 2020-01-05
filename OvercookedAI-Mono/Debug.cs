@@ -8,6 +8,27 @@ using Object = UnityEngine.Object;
 namespace AI {
     internal static class Debug {
 
+        public static void LogTestReflectionUtil() {
+            Logger.Log("Test1");
+            ClientWorkstation[] stations = Object.FindObjectsOfType<ClientWorkstation>();
+            Logger.Log("Test2");
+            foreach (ClientWorkstation station in stations) {
+                Logger.Log("Test3");
+                // ReflectionUtil.GetValue(station, "m_attachStation");
+                ClientAttachStation attachStation =
+                    (ClientAttachStation) ReflectionUtil.GetValue(station, "m_attachStation");
+                Logger.Log($"Test4: {attachStation.name}");
+                if (attachStation.InspectItem() != null) {
+                    Logger.Log($"Item on workstation: {attachStation.InspectItem()}");
+                } else {
+                    Logger.Log($"No item on workstation");
+                }
+
+                Logger.Log("Test5");
+            }
+            Logger.Log("Test6");
+        }
+        
         public static void LogInteractables() {
             PlayerControls[] playerControlsArray = Object.FindObjectsOfType<PlayerControls>();
 

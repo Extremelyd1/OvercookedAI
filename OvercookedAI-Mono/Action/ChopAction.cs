@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace AI {
+﻿namespace AI {
 
     internal class ChopAction : Action {
 
@@ -17,11 +14,11 @@ namespace AI {
             Logger.Log("ChopAction instantiated");
         }
 
-        public override bool Update() {
+        public bool Update() {
             return StationUtil.HasFinishedChopping(workstation);
         }
 
-        public override void End() {
+        public void End() {
             Keyboard.Get().SendUp(Keyboard.Input.CHOP_THROW);
         }
 

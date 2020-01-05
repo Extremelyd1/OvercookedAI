@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace AI {
 
-namespace AI {
-
-    internal class PickDropAction : Action {
+    internal class PickDropAction : IPausableAction {
 
         private static readonly int TRIES = 20;
         
@@ -11,11 +9,8 @@ namespace AI {
         private readonly string currentlyHolding;
 
         private int retry = TRIES;
-        
-        public PickDropAction(PlayerControls player) : this(player, false) {
-        }
 
-        public PickDropAction(PlayerControls player, bool skipHoldingCheck) {
+        public PickDropAction(PlayerControls player, bool skipHoldingCheck = false) {
             this.player = player;
             this.skipHoldingCheck = skipHoldingCheck;
             
@@ -26,7 +21,7 @@ namespace AI {
             Logger.Log("PickDropAction instantiated");
         }
 
-        public override bool Update() {
+        public bool Update() {
             if (skipHoldingCheck) {
                 retry -= 1;
 
@@ -37,7 +32,7 @@ namespace AI {
                 return false;
             }
             
-            String newHolding = PlayerUtil.GetCarrying(player);
+            string newHolding = PlayerUtil.GetCarrying(player);
 
             if (retry == 5) {
                 Keyboard.Get().SendUp(Keyboard.Input.PICK_DROP);
@@ -58,10 +53,15 @@ namespace AI {
             return true;
         }
 
-        public override void End() {
+        public void End() {
             Keyboard.Get().SendUp(Keyboard.Input.PICK_DROP);
         }
 
+        public bool Pause() {
+            Keyboard.Get().SendUp(Keyboard.Input.PICK_DROP);
+
+            return true;
+        }
     }
 
 }

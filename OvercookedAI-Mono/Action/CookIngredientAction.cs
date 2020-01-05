@@ -1,11 +1,9 @@
-﻿using System;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace AI {
 
-    internal class CookIngredientAction : Action {
+    internal class CookIngredientAction : ISequentialAction {
 
         private readonly PlayerControls player;
 
@@ -52,7 +50,7 @@ namespace AI {
             }
         }
 
-        public override bool Update() {
+        public bool Update() {
             switch (state) {
                 case 0:
                     if (currentAction.Update()) {
@@ -116,7 +114,11 @@ namespace AI {
 
                         state = 6;
                         
-                        currentAction = new PickDropAction(player);
+                        currentAction =
+                            new PathFindAction(
+                                player,
+                                cookingStation
+                            );
                     }
                     
                     return false;
@@ -124,33 +126,36 @@ namespace AI {
                     if (currentAction.Update()) {
                         currentAction.End();
 
-                        return true;
+                        state = 7;
+                        
+                        currentAction = new PickDropAction(player);
                     }
                     
+                    return false;
+                case 7:
+                    if (currentAction.Update()) {
+                        currentAction.End();
+
+                        return true;
+                    }
+
                     return false;
                 default:
                     return false;
             }
         }
 
-        public override void End() {
+        public void End() {
             currentAction.End();
         }
 
         private bool IsCookableOnStation(ClientCookableContainer container, ClientCookingStation station) {
-            Type stationType = station.GetType();
-            
-            const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                           | BindingFlags.Static;
-
-            FieldInfo itemPotFieldInfo = stationType.GetField("m_itemPot", bindFlags);
-            
-            if (itemPotFieldInfo.GetValue(station) == null) {
+            if (ReflectionUtil.GetValue(station, "m_itemPot") == null) {
                 Logger.Log("Cookable is not on station (null)");
                 return false;
             }
             
-            IClientCookable clientCookable = (IClientCookable) itemPotFieldInfo.GetValue(station);
+            IClientCookable clientCookable = (IClientCookable) ReflectionUtil.GetValue(station, "m_itemPot");
             
             if (clientCookable.Equals(container.GetCookingHandler())) {
                 Logger.Log("Cookable is on station");
@@ -169,6 +174,14 @@ namespace AI {
             return false;
         }
 
+        public bool IsIdle() {
+            if (state == 5) {
+                return cookableContainer.GetCookingHandler().GetCookingProgress() <
+                       cookableContainer.GetCookingHandler().AccessCookingTime;
+            }
+
+            return false;
+        }
     }
 
 }

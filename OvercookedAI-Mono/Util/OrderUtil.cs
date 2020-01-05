@@ -10,20 +10,15 @@ namespace AI {
         public static ArrayList GetOrders(ClientKitchenFlowControllerBase flowController) {
             ArrayList recipes = new ArrayList();
 
-            
-
             ClientOrderControllerBase orderController = flowController.GetMonitorForTeam(TeamID.One).OrdersController;
 
-            const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                           | BindingFlags.Static;
-            FieldInfo activeOrderField = orderController.GetType().GetField("m_activeOrders", bindFlags);
-
-            IEnumerable activeOrderFieldEnumerable = (IEnumerable) activeOrderField.GetValue(orderController);
+            IEnumerable activeOrderFieldEnumerable =
+                (IEnumerable) ReflectionUtil.GetValue(orderController, "m_activeOrders");
 
             IEnumerator enumerator = activeOrderFieldEnumerable.GetEnumerator();
             while (enumerator.MoveNext()) {
-                FieldInfo activeOrderRecipeListEntry = enumerator.Current.GetType().GetField("RecipeListEntry", bindFlags);
-                RecipeList.Entry entry = (RecipeList.Entry) activeOrderRecipeListEntry.GetValue(enumerator.Current);
+                RecipeList.Entry entry =
+                    (RecipeList.Entry) ReflectionUtil.GetValue(enumerator.Current, "RecipeListEntry");
 
                 recipes.Add(entry.m_order.name);
             }

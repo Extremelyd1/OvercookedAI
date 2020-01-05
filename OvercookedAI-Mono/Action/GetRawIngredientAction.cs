@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    internal class GetRawIngredientAction : Action {
+    internal class GetRawIngredientAction : IPausableAction {
 
         private readonly PlayerControls player;
 
@@ -18,7 +18,7 @@
             currentAction = new PathFindAction(player, ingredientSpawner);
         }
 
-        public override bool Update() {
+        public bool Update() {
             switch (state) {
                 case 0:
                     if (currentAction.Update()) {
@@ -41,10 +41,17 @@
             }
         }
 
-        public override void End() {
+        public void End() {
             currentAction.End();
         }
 
+        public bool Pause() {
+            if (currentAction is IPausableAction pausableAction) {
+                return pausableAction.Pause();
+            }
+
+            return false;
+        }
     }
 
 }

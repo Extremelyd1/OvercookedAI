@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AI {
 
-    internal class MoveAction : CancellableAction {
+    internal class MoveAction : IPausableAction {
 
         private static readonly int STUCK_TRIES = 5;
         
@@ -69,7 +69,7 @@ namespace AI {
             Logger.Log("MoveAction instantiated");
         }
 
-        public override bool Update() {
+        public bool Update() {
             Keyboard.Input release = Keyboard.Input.MOVE_RIGHT;
             Keyboard.Input press = Keyboard.Input.MOVE_LEFT;
 
@@ -145,12 +145,14 @@ namespace AI {
             return true;
         }
 
-        public override void Cancel() {
+        public bool Pause() {
             Keyboard.Get().StopXMovement();
             Keyboard.Get().StopZMovement();
+
+            return true;
         }
 
-        public override void End() {
+        public void End() {
         }
 
         public Vector3 GetDestination() {

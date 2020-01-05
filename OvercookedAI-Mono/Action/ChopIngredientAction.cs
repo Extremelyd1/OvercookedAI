@@ -1,6 +1,8 @@
-﻿namespace AI {
+﻿using UnityEngine;
 
-    internal class ChopIngredientAction : Action {
+namespace AI {
+
+    internal class ChopIngredientAction : IPausableAction {
 
         private readonly PlayerControls player;
 
@@ -13,7 +15,9 @@
             this.player = player;
             state = 0;
 
-            workstation = ComponentUtil.GetClosestComponent<ClientWorkstation>(player.transform.position);
+            workstation = ComponentUtil.GetClosestMatchingComponent<ClientWorkstation>(
+                player.transform.position, IsChoppingNotBlocked
+            );
             
             currentAction = 
                 new PathFindAction(
@@ -24,7 +28,7 @@
             Logger.Log("ChopIngredientAction instantiated");
         }
 
-        public override bool Update() {
+        public bool Update() {
             switch (state) {
                 case 0:
                     if (currentAction.Update()) {
@@ -63,10 +67,30 @@
             }
         }
 
-        public override void End() {
+        public void End() {
             currentAction.End();
         }
 
+        public bool IsChoppingNotBlocked(Component component) {
+            if (component is ClientWorkstation clientWorkstation) {
+                ClientAttachStation clientAttachStation = (ClientAttachStation) ReflectionUtil.GetValue(clientWorkstation, "m_attachStation");
+                return clientAttachStation.InspectItem() == null;
+            }
+
+            return false;
+        }
+
+        public bool Pause() {
+            if (state == 1) {
+                return false;
+            }
+            
+            if (currentAction is IPausableAction pausableAction) {
+                return pausableAction.Pause();
+            }
+
+            return false;
+        }
     }
 
 }

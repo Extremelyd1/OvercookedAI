@@ -20,7 +20,7 @@
             }
         }
 
-        public override bool Update() {
+        public bool Update() {
             switch (state) {
                 case 0:
                     if (currentAction.Update()) {
@@ -66,7 +66,7 @@
             }
         }
 
-        public override void End() {
+        public void End() {
             currentAction.End();
         }
 

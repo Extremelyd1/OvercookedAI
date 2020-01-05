@@ -14,13 +14,11 @@ namespace AI {
         }
 
         public static String GetCarrying(PlayerControls playerControls) {
-            BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                    | BindingFlags.Static;
-            FieldInfo clientCarrierField = playerControls.GetType().GetField("m_clientCarrier", bindFlags);
-            ClientPlayerAttachmentCarrier clientCarrier = (ClientPlayerAttachmentCarrier)clientCarrierField.GetValue(playerControls);
+            ClientPlayerAttachmentCarrier clientCarrier =
+                (ClientPlayerAttachmentCarrier) ReflectionUtil.GetValue(playerControls, "m_clientCarrier");
 
-            FieldInfo carriedObjectsField = clientCarrier.GetType().GetField("m_carriedObjects", bindFlags);
-            IClientAttachment[] carriedObjects = (IClientAttachment[])carriedObjectsField.GetValue(clientCarrier);
+            IClientAttachment[] carriedObjects =
+                (IClientAttachment[]) ReflectionUtil.GetValue(clientCarrier, "m_carriedObjects");
 
             // Logger.Log($"Number of carried objects: {carriedObjects.Length}");
             for (int i = 0; i < carriedObjects.Length; i++) {
@@ -93,7 +91,7 @@ namespace AI {
             float xDif = Math.Abs(playerPos.x - compPos.x);
             float zDif = Math.Abs(playerPos.z - compPos.z);
             
-            Logger.Log($"AngleFacingDif method: rot={rot}, xDif={xDif}, zDif={zDif}");
+            // Logger.Log($"AngleFacingDif method: rot={rot}, xDif={xDif}, zDif={zDif}");
 
             if (xDif > zDif) {
                 if (playerPos.x > compPos.x) {

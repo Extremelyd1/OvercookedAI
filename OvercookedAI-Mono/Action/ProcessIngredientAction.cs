@@ -1,6 +1,6 @@
 ﻿namespace AI {
 
-    internal class ProcessIngredientAction : Action {
+    internal class ProcessIngredientAction : ISequentialAction, IPausableAction {
 
         private readonly Action action;
 
@@ -23,14 +23,29 @@
             }
         }
 
-        public override bool Update() {
+        public bool Update() {
             return action == null || action.Update();
         }
 
-        public override void End() {
+        public void End() {
             action?.End();
         }
 
+        public bool IsIdle() {
+            if (action is ISequentialAction sequentialAction) {
+                return sequentialAction.IsIdle();
+            }
+
+            return false;
+        }
+
+        public bool Pause() {
+            if (action is IPausableAction pausableAction) {
+                return pausableAction.Pause();
+            }
+
+            return false;
+        }
     }
 
 }

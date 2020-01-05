@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AI {
 
-    internal class MoveTargetAction : MoveAction {
+    internal class MoveTargetAction : MoveAction, Action {
 
         private Component target;
 
@@ -20,7 +20,7 @@ namespace AI {
             Logger.Log($"MoveTargetAction instantiated to {target.name}");
         }
 
-        public override bool Update() {
+        public new bool Update() {
             bool baseResult = base.Update();
 
             // Check whether the player is currently highlighting its target
